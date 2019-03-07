@@ -1,73 +1,71 @@
-// Before you can make any part of our site work, you need to create an array of strings, each one related to a topic that interests you. Save it to a variable called `topics`.
-//    * We chose animals for our theme, but you can make a list to your own liking.
-
 //  get giphy API
 
 //----------------------------------------------------
-var queryURL = "https://api.giphy.com/v1/gifs/trending?api_key=Tc1puQ7vhwCKsxRp6tQCeouk1oQVJoOI";
+//get api key 
+// var dancing = $(this).attr("data-dancing");
 
-$.ajax({
-  url: queryURL,
-  method: "GET"
-}).then(function (response) {
-  console.log(response);
+function getGifs(dancing) {
+  var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=Tc1puQ7vhwCKsxRp6tQCeouk1oQVJoOI&q=" + dancing + "&limit=5&offset=0&rating=PG-13&lang=en";
+
+  // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+  // dancing + "&api_key==1Tc1puQ7vhwCKsxRp6tQCeouk1oQVJoOI";
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+
+  }).then(function (response) {
+    console.log(response);
+    var gif = response.data;
+    // state = still;
+    // console.log(response.data[i].images.original.url);
+    for (var i = 0; i < gif.length; i++) {
+      var img = $("<img>");
+      var p = $("<p>");
+      p.text("Rated: " + gif[i].rating);
+      // img.attr("src", response.data[i].images.original.url);
+      img.attr("src", gif[i].images.fixed_height.url, gif[i].images.fixed_height_still.url);
+      $("#showGiphy").append(p, img);
+    }
+  });
+}
+function makeButtons() {
+  //for every element in the array
+  var danceParty = ["swing dance", "hip-hop dance", "interpretive dancing", "line dancing", "ballet dancing", "jazz dance", "salsa dancing", "kids dancing", "drunk dancing", "wedding dancing", "cartoon dancing"];
+  //loop thru an array of string
+  for (var i = 0; i < danceParty.length; i++) {
+    //make a new button
+    var btn = $("<button>");
+    btn.text(danceParty[i]);
+    //with a data attr of data-title
+    btn.attr("data-title", danceParty[i]);
+    //change data state from still to play
+    // var state = still;
+
+    //and value of the title show
+    btn.addClass("btn btn-success dance-btn");
+    $("#buttons").append(btn);
+  }
+}
+
+makeButtons();
+//-----------------------------------
+//  
+//listen for the click .dance button
+$(document).on("click", ".dance-btn", function (event) {
+  console.log("clicked on the btn");
+  $("#showGiphy").empty();
+  //get buttons data attr value and call the fucntion with that value
+  //clear gifs from the previous page
+  dance = $(this).attr("data-title");
+  console.log(dance);
+  getGifs(dance);
+
+
 });
+// i would like to change the data states
+//change gif data state to still
+//create an onclick function
+//state being still is true
+//if true, change data state to animate
 
-// var giphyDiv = $("<div class='giphy'>");
-
-// //Storing the rating data
-// var rating = response.Rated;
-// //Creating an element to have the rating displayed
-// var pOne = $("<p>").text("Rating: " + rating);
-
-// //Displaying the rating
-// giphyDiv.append(pOne);
-// console.log(giphyDiv);
-
-
-// // Retrieving the URL for the image
-//     var imgURL = response.Poster;
-
-// // Creating an element to hold the image
-// var image = $("<img>").attr("src", imgURL);
-
-//  // Appending the image
-// giphyDiv.append(image);
-
-//  // Putting the giphy with the other giphys
-//  $("#giphyView").apend(giphyDiv);
-//------------------------------------------------------
-//FOR ADDING THE SEARCH/ADD GIF BUTTON
-
-/* <form id="movie-form">
-      <label for="movie-input">Add a Movie, Yo!</label>
-      <input type="text" id="movie-input"><br>
-
-      <!-- Button triggers new movie to be added -->
-      <input id="add-movie" type="submit" value="Add a Movie, Yo!">
-    </form>
-
-
-Creating a div to hold the giphy
-
-
-//--------------------------------------------------------
-//RETRIEVING THE GIPHY IMAGES
-
-
-
-
-//--------------------------------------------------------
-
-// 2. Your app should take the topics in this array and create buttons in your HTML.
-//    * Try using a loop that appends a button for each string in the array.
-
-// 3. When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
-
-// 4. When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
-
-// 5. Under every gif, display its rating (PG, G, so on).
-//    * This data is provided by the GIPHY API.
-//    * Only once you get images displaying with button presses should you move on to the next step.
-
-// 6. Add a form to your page takes the value from a user input box and adds it into your `topics` array. Then make a function call that takes each topic in the array remakes the buttons on the page. */

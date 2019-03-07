@@ -1,6 +1,18 @@
 body {
-    background-image: url("https://www.muralswallpaper.com/app/uploads/capital-city-maps-plain.jpg");
+    /* background-image: url("https://media2.giphy.com/media/P6daEkkOPr4wo/giphy.gif"); */
+    align-content: center;
 }
 h1 {
     text-align: center;
+    color:#777;
+}
+#buttons {
+    background-color: #777;
+    color: aliceblue;
+    margin-top: -80px;
+}
+#showGiphy {
+    align-items: center;
+    
+
 }
